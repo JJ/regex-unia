@@ -1,0 +1,696 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <meta http-equiv="Content-Language" content="es" >
+    <meta name="generator" content="XEmacs + HTML::Mason + mod_perl">
+    <title>Tutorial: Introducción a las expresiones regulares</title>
+    <meta name="AUTHOR" content="Juan Julián Merelo Guervós">
+    <meta name="keywords" content="programación, tutoriales, introducción, regexp, regex, regexen">
+    <meta name="description" content="Taller para la oficina de software libre">
+
+    <link rel ='stylesheet' type = "text/css" href = "regex.css" title='normal'>
+    <link rel ='stylesheet' type = "text/css" href = "highlight.css" title='normal'>
+  </head>
+<body>
+  <h1><a href='http://osl.ugr.es/cursos-y-eventos/talleres-de-programacion-de-aplicaciones-libres-en-la-etsiit-2011-2012/'>Talleres de programación de aplicaciones libres</a>:  
+      Introducción a las expresiones regulares</h1>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-1902509609982107";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_channel ="";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+
+
+    
+<div class='objetivos'> 
+  <ul>	  
+      <li><A href='http://sl.ugr.es/00Q5' >Página de los talleres </A></li>
+      <li><A href='/~jmerelo/ruby-para-impacientes' > Un poco de Ruby </A></li>
+      <li><A href='/~jmerelo/perl-para-apresurados' > Un poco de Perl </A></li>
+    <li> <A href='/'>Página principal del grupo GeNeura</A></li>
+  </ul>
+</div>
+
+<h2><a name='intro'>1 Metaintroducción: Expresiones regulares </a> <a href='#intro' style='font-size:small'>#</a></h2>
+
+
+
+<p>Esta introducción a la introducción pretende explicaros qué son las
+    <a href='http://es.wikipedia.org/wiki/Expresiones_regulares'>expresiones regulares</a>, para qué sirven y cómo se usan. Una
+    expresión regular es simplemente una gramática para describir la
+    estructura de una cadena de texto tan extensa como queramos. A su
+    vez, una regex (una de las posibles abreviaturas, más fácil de
+    pronunciar que regexp, otra también usada) es una cadena de texto
+    que representa la regularidad en el texto a examinar mediante una
+    serie de símbolos que pueden parecer raros, y en realidad, lo son,
+    pero tienen la ventaja de ser compactos y más o menos
+    universales.</p>
+
+<p>Esa universalidad se debe a que la mayoría de los motores de
+    expresiones regulares usados en los lenguajes de programación
+    actuales proceden del <a
+    href='http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions'>motor
+    usado en el lenguaje Perl </a>, aunque en realidad el primero fue
+    el <a
+    href='http://en.wikipedia.org/wiki/Regular_expression#POSIX'>motor
+    POSIX</a>. La sintaxis usada en los dos es bastante similar, pero
+    como el primero está más extendido, generalmente lo usaremos en
+    los ejemplos.</p>
+
+<p>El que se pueda usar dentro (y fuera) de estos lenguajes de
+    programación hace también que se puedan aplicar a todo tipo de
+    problemas, aunque se pueden resumir básicamente en tres: búsqueda,
+    es decir, comprobar cuántas cadenas en un texto siguen una regex,
+    y sustitución, una vez que esas cadenas cumplan una expresión,
+    llevar a cabo una sustitución usando o no los términos que la
+    cumplan. Con sólo esto, una aplicación que use expresiones
+    regulares se puede usar para cosas como</p>
+<ul>
+    <li>Refactorizar un programa cambiando las variables que sigan un
+      patrón por otras</li>
+    <li>Dividir un texto en diferentes partes, de acuerdo con la palabra
+      que describa esas partes: Capítulo, o Artículo</li>
+    <li>Extraer información de un texto semiestructurado como un informe o
+      una página web</li>
+    <li>Analizar un registro de actividad de un servidor buscando algún
+      tipo de patrón, y extraerlo</li>
+  </ul>
+
+<p>Hay una anécdota que dice que si tienes un problema y decides
+    resolverlo con expresiones regulares, en ese momento tienes dos
+    problemas. En realidad, aparte de lo crípticas que puedan parecer
+    en un momento determinado, son herramientas muy potentes (y
+    ubicuas) de análisis, compresión y tratamiento de textos de todo
+    tipo, por lo que merece la pena conocerlas independientemente del
+    lenguaje de programación con el que trabajemos.</p>
+
+<p>Por otro lado, el cómo se use dependerá bastante del entorno. En
+    general, uno describirá una expresión regular con una cadena de
+    caracteres que incluye caracteres, rangos, caracteres especiales,
+    multiplicadores y descriptores de conjuntos de caracteres (por eso
+    tiene pinta tan rara). En los casos de editores que permitan
+    búsqueda por expresiones regulares (como Emacs o NetBeans) se
+    introduce la expresión regular en la ranura
+    correspondiente. Finalmente, hay programas que sirven para probar
+    expresiones regulares como regexxer o <a
+    href='http://en.wikipedia.org/wiki/Regular_expression#POSIX'>kodos</a>,
+    que sirven para probar expresiones regulares e incluso generar
+    código que trabaje con las mismas. Es conveniente tener instalados
+    estos programas para hacer pruebas, aunque finalmente uno acabará
+    generando las expresiones regulares de memoria.</p>
+
+<div class='ejercicios' id='ej.1'>
+<h3>Bloque 1</h3>
+<ol>
+<li> Comprobar que el lenguaje de programación que usamos
+    habitualmente contiene funciones o bibliotecas para trabajar con
+    expresiones regulares. ¿Es estándar o hay que cargarlo?
+
+</li>
+<li> Instalar alguno de los programas anteriore (para Linux) o programas
+  equivalentes para otros sistemas operativos. ¿Qué programas se usan
+  en estos?
+</li>
+</ol>
+</div>
+
+
+
+
+
+ <div class='tabla'>
+      <ul class='otro'><li>Para empezar a trabajar con las expresiones
+	regulares</li>
+	<li>Búsquedas básicas</li></ul>
+    </div>
+
+<h2><a name='1regex'>2 Mis primeras expresiones regulares </a> <a href='#1regex' style='font-size:small'>#</a></h2>
+
+
+
+<p>La expresión regular más básica es simplemente una cadena
+    literal. Evidentemente, se empareja con cualquier cadena que la
+    incluya como subcadena. Por ejemplo, 'sub' aparecerá una vez en la
+    frase anterior. Pero vamos a ver cómo usarla, y para ello haremos
+    uso de uno de los clásicos de la lengua castellana, <a
+    href='12457-8.txt'>El Diablo Cojuelo, de Ladrón de Guevara</a>,
+    obtenido <a href='http://www.gutenberg.org/ebooks/12457'>del
+    proyecto Gutenberg</a>. Como se puede observar, está dividido en
+    "Trancos" y tiene una serie de prólogos y epílogos; como todo
+    texto, está organizado en párrafos que están separados por dos
+    retornos de carro del siguiente.</p>
+
+<img src='Kodos - The Python Regex Debugger_001.png' alt='Captura
+    pantalla Kodos' style='float:right;margin:20px' >
+<p>Busquemos una palabra que aparece mucho:
+    <var>no</var>. Utilizaremos esto como expresión regular. Para
+    usarla dentro de Kodos, pegamos un párrafo al panel central,
+      escribimos en el panel superior "no", como se observa, y
+      finalmente activamos la pestaña <em>match all</em>, para activar
+      todos los emparejamientos. Aparecerán en azul las subcadenas que
+      cumplan la expresión regular; en este caso, efectivamente,
+      aparecen unos cuantos "no" aquí y allá.</p>
+
+<p>De poco sirve verlo ahí, tan bonito; de lo que se trata es de
+      usarlo en un programa. El propio Kodos te genera código Python
+      para aplicarlo</p>
+<code class='ejemplo'><span class="hl kwa">import</span> re
+<span class="hl slc"># -*- coding: latin-1 -*-</span>
+<span class="hl slc"># common variables</span>
+
+rawstr <span class="hl opt">=</span> r<span class="hl str">&quot;&quot;&quot;Ma&quot;&quot;&quot;</span>
+embedded_rawstr <span class="hl opt">=</span> r<span class="hl str">&quot;&quot;&quot;Ma&quot;&quot;&quot;</span>
+matchstr <span class="hl opt">=</span> <span class="hl str">&quot;&quot;&quot;Daban en Madrid, por los fines de julio, las once de la noche en punto,</span>
+<span class="hl str">hora menguada para las calles[58], y, por faltar la luna, juridición y</span>
+[...]
+<span class="hl str">donde había caído tanto pájaro forastero.&quot;&quot;&quot;</span>
+
+<span class="hl slc"># method 1: using a compile object</span>
+compile_obj <span class="hl opt">=</span> re<span class="hl opt">.</span><span class="hl kwb">compile</span><span class="hl opt">(</span>rawstr<span class="hl opt">)</span>
+match_obj <span class="hl opt">=</span> compile_obj<span class="hl opt">.</span><span class="hl kwd">search</span><span class="hl opt">(</span>matchstr<span class="hl opt">)</span>
+
+<span class="hl kwa">print</span> match_obj<span class="hl opt">.</span><span class="hl kwd">group</span><span class="hl opt">()</span>
+    </code>
+
+<p>Para entender esto, conviene echarle un vistazo a <a
+	href='http://docs.python.org/howto/regex.html'>esta pequeña
+	guía de expresiones regulares en Python</a>, pero es fácil de
+	entender, después de todo el Python es tan fácil, ¿verdad? No
+  como el perverso <a href='http://perl.com'>Perl</a> Para empezar,
+	se importa el módulo que sirve para tratar con expresiones
+	regulares; en este lenguaje es un módulo externo. A
+	continuación se especifica la codificación del fichero, lo
+	que al parecer hay que hacer en Python. Se declaran dos
+	variables, una de ellas no sé para qué, pero se hace. Lo de
+	las tres comillas es para que se pueda extender a través de
+	varias líneas; en realidad en este caso no hacen falta; de
+	hecho, ni hace falta la segunda variable, que no sé para qué
+	diablos la declara. Para que te fíes de los generadores de
+  código.</p>
+
+<p>A continuación  se declara la cadena sobre la que vamos a hacer la
+  comparación, el primer párrafo del primer tranco del Diablo
+  Cojuelo. Cuando termina la cadena se hace la comparación, en dos
+  partes:</p>
+  <ul><li>Primero, se <em>compila</em> la expresión con
+  <code>re.compile</code>. Esta orden crea una representación interna de la
+      expresión regular, que guardamos en <code>compile_obj</code>. </li>
+<li>Ese es el objeto
+  que usamos, posteriormente, para aplicar al texto y obtener un
+  objeto que resume las veces que aparece en el texto.</li>
+<p>  </ul>
+Finalmente, el mensaje <code>group</code> para ese objeto imprime, precisamente,
+  <code>no</code>, que es lo que estamos buscando. <code>match_obj</code> contiene más
+  información, </p>
+
+<p>La expresión, tal cual, se puede usar también en la línea de
+  órdenes con comandos como <code>awk</code> y <code>grep</code> (y sus diferentes
+  versiones: <code>egrep</code>, <code>ngrep</code>. </p>
+<div class='ejemplo'>jmerelo@penny:~/public_html/tutoriales/expresiones-regulares$  <span class='user'>egrep "no" 12457-8.txt </span></div>
+<p>devolverá todas las líneas en la que aparece la palabra "no". Tampoco
+demasido útil, pero sí puede servir para buscar ficheros en los que se
+haya usado una librería, por ejemplo, o textos en LaTeX en los que
+aparezca una cita. A <code>egrep</code> se le pasa primero la expresión regular y
+luego el comodín de los ficheros en los que los busca. Tened en cuenta
+que <a href='http://www.panix.com/~elflord/unix/grep.html'>egrep usa
+  las EREs de POSIX</a>
+, expresiones  regulares extendidas, aunque
+  evidentemente al nivel de sintaxis que vemos ahora mismo no hay
+ninguna diferencia.</p>
+<div class='ejercicios' id='ej.2'>
+<h3>Bloque 2</h3>
+<ol>
+<li> Usar regexxer, Kodos o cualquier otro programa para
+	comprobar la mecánica de la búsqueda con expresiones
+	regulares en este caso tan simple. 
+</li>
+</ol>
+</div>
+
+
+
+
+
+<div class='tabla'>
+      <ul class='otro'><li>Algunas expresiones regulares más: comodines </li>
+	<li>Trabajando en Perl</li></ul>
+    </div>
+
+<h2><a name='repeticiones'>3 Repeticiones y regularidades </a> <a href='#repeticiones' style='font-size:small'>#</a></h2>
+
+
+
+<p>Evidentemente, con sólo encontrar una cadena no vamos a ningún
+  sitio. Hace falta llevar a cabo el verdadero cometido de las regexes
+  (<em>regexen</em> suele ser su plural en inglés): expresar regularidades,
+  o simplemente expresar muchas subcadenas que compartan un rasgo, por
+  ejemplo una letra o grupo de letras. Se usan tres comodines en
+  expresiones regulares:</p>
+<ul>
+    <li>* expresa algo con 0 o más repeticiones</li>
+    <li>+ se refiere a una o más repeticiones</li>
+    <li>? se refiere a que puede aparecer una o ninguna vez lo que le
+    precede</li>
+</ul>
+<img src='regex-emacs.png' alt='Expresiones regulares en emacs'
+     style='float:right;margin:5px;width:300px' >
+<p>  Por ejemplo, <code>ab*</code> será una a seguida (o no) por una o
+  más <code>b</code>s; <code>a+b*</code> obligará a que la <code>a</code> aparezca una o más
+  veces, y finalmente <code>a+b*s?</code> se referirá a las cadenas
+  que terminen (o no) por s y tengan una o varias <code>a</code>s, 0 o más <code>b</code>s y
+  una s al final.  Conviene no confundir este asterisco con el que se
+  suele (o solía, vaya usted a saber) usar para expresar nombres de
+  ficheros. Ene se caso, * significaba (0 o más caracteres); en este
+  caso el * modifica al carácter (o grupo, lo veremos más adelante)
+que lo precede. </p>
+
+<p>Vamos a ponerla en práctica con un editor como el emacs, que
+  permite búsqueda (y sustitución) con expresiones regulares (si
+  todavía no has empezado a usarlo, allá tú, pero puedes hacer lo
+  mismo en el anteriormente mencionado Kodos). Se selecciones
+  Edit->Search->Incremental Search->Regexp Forward o, mucho más fácil,
+  Control-Alt-S. El resultado se muestra en la imagen: aparecen tanto
+  "mal" como "males", pero no "mala". Si hubiera algún "mals", también
+  cumpliría la expresión; para seguir buscando se va dando a
+  control-s  o control-r si quiere que se haga hacia detrás. Otro ejemplo. <code>maravillas? </code> coincidirá con
+  <code>maravilla</code> en singular o plural, siempre que aparezca seguida de un
+  espacio. </p>
+<img src='el-regex-emacs.png' alt='Expresiones regulares en emacs: el.' style='float:left;margin:5px;width:200px'>
+<p>Otro carácter comodín puede resultarnos útil: <code>.</code> coincide con
+  cualquier carácter. <code>n. </code> coincidirá tanto con <code>no</code> como con <code>ni</code>
+  como con palabras que acaben en n seguidas por <code>,</code>. Una expresión
+  regular no distingue entre límites de palabra, aunque sí se para, si
+  no se le dice lo contrario, al llegar a un retorno de carro. Se
+  muestra en la ilustración adjunta como <code>el.</code> marca todos los el,
+  salvo los diversos que aparecen al final de una línea. El carácter
+  <code>\n</code> es, en ese sentido, especial, pero veremos más adelante como
+  trabajar con él.</p>
+
+<p>Como no sólo de editores vive el hombre, veremos como trabajar con
+  expresiones regulares en otro lenguaje de programación, Perl. </p>
+<code class='ejemplo'><span class="hl slc">#!/usr/bin/perl</span>
+
+<span class="hl kwa">use</span> File<span class="hl sym">::</span>Slurp <span class="hl kwd">qw</span><span class="hl sym">(</span>read_file<span class="hl sym">);</span>
+<span class="hl kwc">my</span> <span class="hl kwb">$diablo_cojuelo</span> <span class="hl sym">=</span> <span class="hl kwd">read_file</span><span class="hl sym">(</span><span class="hl str">'12457-8.txt'</span><span class="hl sym">);</span>
+
+<span class="hl kwc">my</span> <span class="hl kwb">&#64;matches</span> <span class="hl sym">= (</span> <span class="hl kwb">$diablo_cojuelo</span> <span class="hl sym">=~</span> <span class="hl kwc">/n. /</span>g<span class="hl sym">);</span>
+<span class="hl kwa">for</span> <span class="hl kwc">my</span> <span class="hl kwb">$m</span> <span class="hl sym">(</span><span class="hl kwb">&#64;matches</span> <span class="hl sym">) {</span>
+  <span class="hl kwc">print</span> <span class="hl str">&quot;* '$m'</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl sym">;</span>
+<span class="hl sym">}</span>
+<!--HTML generated by highlight 2.16, http://www.andre-simon.de/-->
+</code>
+<p>En este caso, tras leer el fichero de una forma rápida usando el
+  módulo <code>File::Slurp</code>, metemos en el array <code>@matches</code> las
+  coincidencias. La sintaxis de Perl es diferente, porque no sigue el
+  clásico método de llamar a una función. Para empezar, se usa <code>
+    =~ </code> para indicar a la izquierda la cadena en la que se
+  quiere hacer la búsqueda y a la derecha la expresión regular. Esta
+  expresión regular está encerrada por barras diagonales
+  (<code>//</code>); ésta es sólo una forma de hacerlo; si se usa el
+  operador <code>m</code> de esta forma: <code>m{n. }</code> se puede usar
+  prácticamente cualquier terminador: llaves, como en este caso, pero
+  también | o los paréntesis angulares <>. Se suele usar cuando hay
+    acumulación de // dentro de la expresión regular, por
+  ejemplo. </>. La <code>g</code> que hay al final es un modificador de la misma,
+  que indica que se extraigan todas las coincidencias; sin ella,
+  extraería sólo la primera. </p>
+
+<p>Finalmente, presentamos las coincidencias recorriendo el array
+  mediante la variable <code>$m</code>. Ahí veremos cosas del estilo
+  de</p>
+<pre>* 'nd '
+* 'nd '
+* 'ns '
+* 'nd '
+* 'nd '
+* 'nd '
+* 'nd '
+* 'nd '
+* 'nd '
+* 'ns '
+* 'nd '
+* 'nd '
+* 'ns '
+* 'ng '
+* 'nd '
+* 'ne '
+* 'nt '
+* 'ng '
+* 'ny '
+* 'nt '
+....
+</pre>
+<p>Todos con el espacio detrás, como debe ser. Las <code>ng</code> raras que se ven,
+antes de que preguntéis, no son del texto en sí, sino de las palabras
+en inglés añadidas por el <a href='http://gutenberg.org'>Proyecto
+  Gutenberg</a>.</p>
+
+<div class='ejercicios' id='ej.3'>
+<h3>Bloque 3</h3>
+<ol>
+<li>Usar Perl, o para el caso, cualquier otro lenguaje, para
+	encontrar sobre un texto elegido todas las palabras que
+	empiecen por una letra (es decir, una letra precedida por un
+	espacio) y que tengan dos caracteres más.
+</li>
+</ol>
+</div>
+
+
+
+
+
+<div class='tabla'>
+      <ul class='otro'><li>Creando grupos </li>
+	<li>Trabajando en JavaScript</li></ul>
+</div>
+
+<h2><a name='grupos'>4 Agrupando </a> <a href='#grupos' style='font-size:small'>#</a></h2>
+
+
+
+<p>Las repeticiones son sólo de caracteres simples hasta ahora, pero
+  nos puede interesar ver cuando aparecen grupos de
+  caracteres. También nos puede interesar inclur en la cadena de las
+  coincidencias partes que queremos extraer y partes que no. En ese
+  caso se usan los paréntesis, que tienen un significado especial:
+  sirven para agrupar, pero también para destacar la parte de la
+  cadena que nos interesa extraer. Si no se incluye ningún paréntesis,
+  como hemos hecho anteriormente, se supone que nos interesa extraer
+  todo el contenido de la regex; si se hace, por el contrario, sólo
+  nos quedamos con lo que haya dentro del paréntesis. </p>
+ <img src='regex-netbeans.png' alt='buscando con regex en NetBeans' width='400px'>
+<p>Además, conviene tambień tener un control más fino sobre cuántas
+  repeticiones queremos. Hasta ahora los comodines sólo nos permitían
+  dilucidar si había una, ninguna o más coincidencias, Con las llaves
+  indicamos el número máximo o mínimo de coincidencias; si dejamos
+  alguno de ellos vacío no habrá límite en uno u otro sentido. Por
+  ejemplo
+  <code class='ejemplo'>(ch.){2,}</code> 
+coincidirá con las cadenas que repitan ch +un carácter dos o más
+  veces, como en chachachá, por ejemplo. El resultado lo mostramos en
+  la imagen superior, en la que hemos usado la búsqueda por
+  expresiones regulares de NetBeans para mostrar el resultado sobre
+  nuestro Diablo Cojuelo. </p>
+
+<p>De la misma forma, podremos expresar la parte que nos interesa de
+  un texto. <code>\. (.+) </code> para empezar <em>escapa</em> el <code>.</code>
+  para indicar que nos referimos al carácter en sí, no al comodín de
+  las regexes; el mismo tipo de sistema se usaría con las llaves o los
+  paréntesis; aparte de eso, se trataría de toda palabra que siguiera
+  un punto (es decir, una expresión que tenga uno o más caracteres y
+  acabe también por un espacio). Usaremos ahora <code>node.js</code> (un
+  intérprete en línea de órdenes de Javascript; podíamos usar
+  cualquier otro intérprete de javascript siempre que diéramos con la
+  forma de meter el fichero). No es que con este sea fácil, pero al
+  menos hay una forma estándar.</p>
+
+<code class='ejemplo'>#<span class="hl sym">!/</span>usr<span class="hl sym">/</span>bin<span class="hl sym">/</span>node
+
+<span class="hl kwa">var</span> fs<span class="hl sym">=</span><span class="hl kwd">require</span><span class="hl sym">(</span><span class="hl str">'fs'</span><span class="hl sym">);</span>
+fs<span class="hl sym">.</span><span class="hl kwd">readFile</span><span class="hl sym">(</span><span class="hl str">'12457.txt'</span><span class="hl sym">,</span> <span class="hl str">'utf8'</span><span class="hl sym">,</span> <span class="hl kwa">function</span> <span class="hl sym">(</span>err<span class="hl sym">,</span> data<span class="hl sym">) {</span>
+    <span class="hl kwa">if</span> <span class="hl sym">(</span>err<span class="hl sym">)</span> <span class="hl kwa">throw</span> err<span class="hl sym">;</span>
+    <span class="hl kwa">var</span> matches <span class="hl sym">=</span> data<span class="hl sym">.</span><span class="hl kwd">match</span><span class="hl sym">(/</span>\<span class="hl sym">. (.+) /</span>g<span class="hl sym">);</span>
+    <span class="hl kwa">for</span> <span class="hl sym">(</span> <span class="hl kwa">var</span> m <span class="hl kwa">in</span> matches <span class="hl sym">) {</span>
+	console<span class="hl sym">.</span><span class="hl kwd">log</span><span class="hl sym">(</span>matches<span class="hl sym">[</span>m<span class="hl sym">] +</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl sym">);</span>
+    <span class="hl sym">}</span>
+<span class="hl sym">});</span>
+</code>
+
+<p>Vamos a dejar un poco de lado la forma como se trabaja con ficheros
+  en <a href='http://nodejs.org'>node.js</a> (aunque puedes aprender
+  todo lo que
+  quieras <a href='http://nodejs.org/docs/v0.3.1/api/fs.html'>en este
+    manual de referencia</a>). Lo importante es a partir de la línea 6,
+  que es donde se usa la expresión regular. Como se ve, las
+  expresiones regulares son parte integrante del lenguaje, no hace
+  falta ninguna librería. Simplemente se aplica <code>match</code> sobre
+  cualquier cadena; curiosamente, la definición de las regexes es
+  exactamente igual que en Perl, inclusive las barras y el modificador
+  <code>g</code> para indicar que se trata de todas las coincidencias, no una
+  sola. Las coincidendias las asignamos a <code>matches</code> y posteriormente
+  recorremos la matriz, imprimiéndola en la consola. Sin embargo, hay
+  un problema: el resultado es así:</p>
+<pre>. Lo de "hija y heredera de si propia" y 
+
+. Lope de Vega, en una epistola, hablando de la 
+</pre>
+<p>Es decir, captura desde el punto hasta el final de la línea, y además
+incluye el propio punto. y los espacios anteriores y posteriores. Es
+porque las expresiones regulares son <em>voraces</em>, van tomando
+todos los caracteres que encuentran hasta que encuentran el último que
+coincide; en este caso sería un espacio al final de la línea. Tenemos
+que restringir la búsqueda para que se quede sólo con la primera
+palabra. En Perl se puede hacer fácilmente usando esta expresión
+regular: <code> /\. (.+?) /g</code>, es decir, añadiendo una
+interrogación que evita la voracidad de la expresión regular, y se
+  queda sólo con la primera palabra, dando un resultado de este estilo:</p><pre>* 'Sevilla_,'
+* 'Llega'
+* 'Lope'
+* 'Lo'
+* 'Hoy'
+* 'Habia,'
+* 'Vea'
+* 'Mateo'
+* 'I),'
+</pre>
+<p>En JavaScript, sin embargo, no existe esa posibilidad. Qué se le va a
+hacer, no todos los lenguajes lo pueden tener todo. </p>
+
+<p>Sin embargo, podemos tratar de resolverlo de otra forma: usando los
+  corchetes, que indican grupos de posibles
+  coincidencias <code>[ab]</code> coincidiría con alguna de esas
+  letras, e incluso se pueden usar rangos del estilo [a..z] para todas
+  las vocales. De esta forma, podríamos reescribir el guión en node.js
+  de la forma siguiente.</p>
+
+<code class='ejemplo'>#<span class="hl sym">!/</span>usr<span class="hl sym">/</span>bin<span class="hl sym">/</span>node
+
+<span class="hl kwa">var</span> fs<span class="hl sym">=</span><span class="hl kwd">require</span><span class="hl sym">(</span><span class="hl str">'fs'</span><span class="hl sym">);</span>
+fs<span class="hl sym">.</span><span class="hl kwd">readFile</span><span class="hl sym">(</span><span class="hl str">'12457.txt'</span><span class="hl sym">,</span> <span class="hl str">'utf8'</span><span class="hl sym">,</span> <span class="hl kwa">function</span> <span class="hl sym">(</span>err<span class="hl sym">,</span> data<span class="hl sym">) {</span>
+    <span class="hl kwa">if</span> <span class="hl sym">(</span>err<span class="hl sym">)</span> <span class="hl kwa">throw</span> err<span class="hl sym">;</span>
+    <span class="hl kwa">var</span> re <span class="hl sym">= /</span>\<span class="hl sym">. ([</span>A<span class="hl sym">-</span>Z<span class="hl sym">][</span>a<span class="hl sym">-</span>z<span class="hl sym">]+) /</span>g<span class="hl sym">;</span>
+    <span class="hl kwa">var</span> matches <span class="hl sym">=</span> re<span class="hl sym">.</span><span class="hl kwd">exec</span><span class="hl sym">(</span>data<span class="hl sym">);</span>
+    <span class="hl kwa">while</span> <span class="hl sym">(</span> matches <span class="hl sym">) {</span>
+	console<span class="hl sym">.</span><span class="hl kwd">log</span><span class="hl sym">(</span><span class="hl str">&quot;* &quot;</span> <span class="hl sym">+</span> matches<span class="hl sym">[</span><span class="hl num">1</span><span class="hl sym">] +</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl sym">);</span>
+	matches <span class="hl sym">=</span> re<span class="hl sym">.</span><span class="hl kwd">exec</span><span class="hl sym">(</span>data<span class="hl sym">);</span>
+    <span class="hl sym">}</span>
+<span class="hl sym">});</span>
+</code>
+
+<p>Usando <code> /\. ([A-Z][a-z]+) / </code> seleccionamos todas las
+palabras con mayúsculas que están detrás de un punto (y espacio) y
+seguidas de un espacio (aunque este último podríamos que
+ahorrárnoslo). A partir de ahí se complica un poco más que antes. En
+vez de usar la orden <code>match</code> de las cadenas, usamos la orden <code>exec</code> de
+la
+clase <a href='http://www.w3schools.com/jsref/jsref_obj_regexp.asp'>RegExp </a>,
+que es más potente en el sentido que realmente te usa los paréntesis
+para extraer, pero por otro lado sólo te extrae una coincidendia cada
+vez, por lo que hay que usarla en un bucle. Lo que te devuelve en este
+  caso es un array con varios componentes: </p><ul>
+  <li>La coincidencia completa, incluyendo también lo que no está dentro de
+  los paréntesis</li>
+<li>La parte extraída del match</li>
+  <li>El carácter en el que comienza</li>
+  <li>La cadena completa que hay causado el match</li>
+</ul>
+<p>A nosotros, sin embargo, nos interesa sólo el segundo componente, que
+es el que imprimimos en la consola. El resultado, en este caso, es
+exactamente igual que el obtenido con la búsqueda anterior en Perl.</p>
+
+
+<div class='ejercicios' id='ej.4'>
+<h3>Bloque 4</h3>
+<ol>
+<li>Usar una expresión regular que detecte las siglas de partidos
+	políticos en un texto periodístico (que habrá que exportar a
+	texto, o usar directamente el fuente en HTML
+</li>
+</ol>
+</div>
+
+
+
+
+
+<div class='tabla'>
+      <ul class='otro'><li>Categorías de carácteres </li>
+	<li>Usándolo en Ruby</li></ul>
+</div>
+
+<h2><a name='clases'>5 Clases de caracteres </a> <a href='#clases' style='font-size:small'>#</a></h2>
+
+
+
+<p>Ya hemos visto una forma simple de agrupar caracteres, pero aún
+  así, resulta un poco prolijo enumerar todos los caracteres posibles
+  que queremos que cumplan la expresión. Para eso están las clases de
+  caracteres que tienen
+  unas <a href='http://www.regular-expressions.info/charclass.html'>abreviaturas
+  que se pueden usar con más facilidad</a>, haciendo la regex (dentro
+  de lo que cabe) más legible. Las más habituales son <code>\d</code>, números
+  decimales, <code>\s</code>, que se refiere a los espacios en blanco (incluyendo
+  tanto espacios como tabuladores o retornos de carro y <code>\w</code>, que se
+  refiere a caracteres alfanuméricos. En todas estas, poner el
+  carácter en mayúscula niega la clase: <code>\W</code> se referiría a todos los
+  caracteres que no son alfanuméricos. También resultan útiles
+  (aunque, desgraciadamente, no
+  universales, <a href='http://perldoc.perl.org/perlre.html#Regular-Expressions'><code>\b</code>
+  que coincide con los límites de palabra</a> (y el contrario, no hace
+  falta que os lo diga). Podemos meter en esta categoría al caret <code>^</code>,
+  que coincide con el principio, y al dólar <code>$</code>, que
+  coincide con el final. </p>
+
+ <p>Estos mismos conjuntos de caracteres se
+  expresan también de forma más prolija entre corchetes y :; por
+   ejemplo, <code>\d</code> correspondería a <code>[:digit:]</code>Veamos <a href='http://help.libreoffice.org/Common/List_of_Regular_Expressions'>cómo usarlo en procesadores de textos</a>
+  como el LibreOfice, que, desgraciadamente, no puede usar la forma
+  corta, sino la prolija.</p>
+<img src='regex-libreoffice.png' alt='buscando con regex en LibreOffice' >
+  <p>Usamos <code>[[:digit:]+]</code> para encontrar todas las
+    llamadas a notas del texto, que son un corchete con un número
+    determinado de dígitos, uno o más. Los corchetes exteriores son
+    caracteres literales, los interiores son parte del conjunto de
+    caracteres que estamos usando. </p>
+
+<p>Como ya nos está estorbando tanto corchete, vamos a eliminarlo
+  usando un programa en Ruby, el siguiente:</p>
+<code class='ejemplo'><span class="hl slc">#!/usr/bin/ruby</span>
+
+diablo <span class="hl sym">=</span> File<span class="hl sym">.</span><span class="hl kwd">read</span><span class="hl sym">(</span><span class="hl str">'12457.txt'</span><span class="hl sym">)</span>
+re <span class="hl sym">=</span> <span class="hl kwc">/\[\d+\]/</span>
+  <span class="hl kwd">puts</span><span class="hl sym">(</span> diablo<span class="hl sym">.</span><span class="hl kwd">gsub</span><span class="hl sym">(</span>re<span class="hl sym">,</span><span class="hl str">''</span><span class="hl sym">) )</span></code>
+<p>El programa es bastante compacto, como corresponde a lo usual en
+  Ruby. El programa lee el fichero y define la expresión regular, que
+  usa las mismas convenciones que las que hemos visto hasta este
+  momento; los corchetes, al tener que entenderlos como un carácter
+  literal (y no en su significado dentro de las regexes) hay
+  que <em>escaparlas</em>. El resultado es precisamente el esperado:
+  eliminan todos los corchetes, como se ve si se ejecuta el
+  programa.</p> 
+
+<p>De hecho, las expresiones regulares son bastante más potentes:
+  permiten usar las coincidencias en la propia sustitución. Pasamos al
+  Perl para sustituir los corchetes por llaves en las llamadas a pies
+  de página, por ejemplo.</p>
+<code class='ejemplo'><span class="hl slc">#!/usr/bin/perl</span>
+
+<span class="hl kwa">use</span> File<span class="hl sym">::</span>Slurp <span class="hl kwd">qw</span><span class="hl sym">(</span>read_file<span class="hl sym">);</span>
+<span class="hl kwc">my</span> <span class="hl kwb">$diablo_cojuelo</span> <span class="hl sym">=</span> <span class="hl kwd">read_file</span><span class="hl sym">(</span><span class="hl str">'12457.txt'</span><span class="hl sym">);</span>
+<span class="hl kwb">$diablo_cojuelo</span> <span class="hl sym">=~</span> <span class="hl kwc">s/\[(\d+)\]/{$1}/g</span><span class="hl sym">;</span>
+<span class="hl kwc">print</span> <span class="hl kwb">$diablo_cojuelo</span><span class="hl sym">;</span>
+</code>
+
+<p>En el caso de Perl, la sintaxis sigue siendo peculiar. Nos volvemos
+  a encontrar con el operador <code>=~</code> que tiene en su parte
+  derecha el operador de expresiones regulares que se sobre la
+  izquierda. Y este operador usa una sintaxis similar a la que hemos
+  visto anteriormente, pero al ser una coincidencia más sustitución,
+  lo que hay entre los dos primeros / es la regex que buscamos, y
+  entre los dos segundos lo que vamos a sustituir</p>
+
+<p>En la regex usamos los paréntesis para indicarle que esa es la
+  parte de la coincidencia que vamos a recordar. <em>Recordamos</em>
+  el número, que será el que representemos con <code>$1</code> en la
+  segunda parte de la expresión regular. El resultado, como se puede
+  comprobar, es el esperado: números encorchetados se sustituyen con
+  números enllavados (no sé si existe la palabra, pero da igual).</p>
+
+<div class='ejercicios' id='ej.5'>
+<h3>Bloque 5</h3>
+<ol>
+<li>En un texto que use CamelCaps, sustituirlos por las palabras
+	que la formen separadas por _. Para no complicar, supongamos
+	que las palabras tienen solamente dos partes.
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+<h2><a name='sabermas'>6 A donde ir desde aquí </a> <a href='#sabermas' style='font-size:small'>#</a></h2>
+
+
+
+<p>Posiblemente, el lenguaje más eficiente a la hora de trabajar con
+  expresiones regulares  es
+  el <a href='http://www.gnu.org/s/gawk/manual/gawk.html'>AWK</a>,
+  creado por Aho, Kernighan y Weinberger para proceso de textos, y con
+  un motor POSIX de expresiones  que lleva funcionando desde el
+  85. Para tareas de administración no tiene igual.</p>
+
+<p>Por otro lado, las expresiones regulares se pueden usar también en
+  <a href='http://webhole.net/2010/01/14/css-regular-expressions/'>CSS</a>,
+  pudiéndose seleccionar, por ejemplo, los elementos HTML que
+  contengan una palabra determinada. Una vez más, esto demuestra la
+  ubicuidad de las mismas, y lo imprescindibles que son en la caja de
+  herramientas de cualquier programador.</p>
+
+<h2><a name='biblio'>7 Bibliografía y enlaces relacionados con expresiones regulares </a> <a href='#biblio' style='font-size:small'>#</a></h2>
+
+
+
+<iframe src="http://rcm-es.amazon.es/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=atalaya-21&o=30&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=0596528124" style="width:120px;height:240px;float:left;margin:5px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe><iframe src="http://rcm-es.amazon.es/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=atalaya-21&o=30&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=0596520689" style="width:120px;height:240px;float:right;margin:5px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+<p>Como en cualquier tema relacionado con el software libre, es
+  imprescindible usar los libros de
+  O'Reilly: <a href='https://www.amazon.es/dp/0596528124/ref=as_li_ss_til?tag=atalaya-21&camp=3634&creative=24822&linkCode=as4&creativeASIN=0596528124&adid=10WR7A677DTGK54N0VDC&'>Mastering
+      Regular Expressions</a>, por ejemplo, o
+  bien <a href='https://www.amazon.es/dp/0596520689/ref=as_li_ss_til?tag=atalaya-21&camp=3634&creative=24822&linkCode=as4&creativeASIN=0596520689&adid=176VBBXPE72W1ESGSEE7&'>Regular
+    expressions Cookbook</a>, con una serie de recetas que se pueden
+  usar directamente en nuestros programas. </p>
+
+  <p>Como recurso centralizado para expresiones
+  regulares, <a href='http://regular-expressions.info'>REgular-expressions.info</a>,
+  un sitio centralizado de tutoriales para todo tipo de lenguaje de
+  programación. En castellano tenemos
+  un <a href='http://www.desarrolloweb.com/articulos/2033.php'>taller
+      enfocado al PHP</a>, pero es conveniente ver también
+  la <a href='http://perldoc.perl.org/perlretut.html'>el tutorial de
+  expresiones regulares en Perl, uno de los lenguajes que tiene una
+      implementación más completa</a>, junto
+    con <a href='http://perldoc.perl.org/perlre.html'>la referencia</a>.</p>
+
+    <p>
+      <a href="http://validator.w3.org/check?uri=referer"><img style='border:0'
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+    </p>
+<p>
+  <a href="http://jigsaw.w3.org/css-validator/check/referer">
+    <img style="border:0;width:88px;height:31px"
+        src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+        alt="¡CSS Válido!" />
+</a>
+</p>
+
+
+<br clear='all'>
+
+<div class='licencia'>Este material está <a href='http://curso-sobre.berlios.de/gfdles/'>disponible bajo los términos de la licencia GNU FDL</a>. </div>
+
+<div style='float:right'>
+      <a href="http://validator.w3.org/check?uri=referer"><img
+	  src="http://www.w3.org/Icons/valid-html401"
+	  alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+</div>
+
+    <address><a href="mailto:jj (at) merelo.net">Juan J. Merelo</a></address>
+  </body>
+</html>
+
+
+
+
+
