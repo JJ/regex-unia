@@ -33,131 +33,132 @@
 		<h1 class='fragment'>Luego, procesémosla</h1>
 	      </section>
 
-			  <section>
-			    <section><h1>En el principio fue el API</h1>
-			    </section>
+	      <section>
+		<section><h1>En el principio fue el API</h1>
+		</section>
 
-			    <section><h1>Un API permite usar la web
+		<section><h1>Un API permite usar la web
 			    <em>por debajo</em></h1>
 
-			    </section>
+		</section>
+		
+		<section><h1>Entrando paso a paso</h1>
+		  <aside class='notes'>La autenticación se
+		    hace en dos pasos, por usuario y por aplicación</aside>
+		</section>
 
-			    <section><h1>Entrando paso a paso</h1>
-			      <aside class='notes'>La autenticación se
-				hace en dos pasos, por usuario y por aplicación</aside>
-			    </section>
+	      </section>
 
-			  </section>
+	      <section>
+	
+		<section>
+		  <h1>Recuperemos información</h1>
+		  <h2>Autenticación ⇒ Autorizar aplicación</h2>
+		  <a
+		    href='https://dev.twitter.com/rest/tools/console'><code>https://dev.twitter.com/rest/tools/console</code></a><
+		</section>
+		
+		<section>
+		  <img src='img/console.png' alt='usando
+		       la consola'>
+		</section>
+		
+		<section>
+		  <h2>Copia/pega entre llaves</h2>
+		  <img src='img/json.png' alt='copiando'>
+		</section>
+		
+		<section>
+		  <h1>Pero esto no funciona (salvo en
+		    casos muy concretos)</h1>
+		</section>
+		
+		<section>
+		  <h1>Instalemos <a href='https://chrome.google.com/webstore/search/postman?hl=es'>Postman</a></h1>
+		  <h2 class='fragment'>Extensión
+		    Chrome/Chromium</h2>
+		</section>
+		
+		<section>
+		  <img src='img/postman.png' alt='Usando postman'>
+		</section>
+		
+		<section>
+		  <h1> ⇒ Save Response</h1>
+		  <h2 class='fragment'>(icono copy/pegar)</h2>
+		</section>
+		
+		<section><h1>Pero el formato es muy
+		  feo</h1></section>
+		
+		<section><h1>Filtrando con
+		  <code>jq</code></h1>
+		  
+		  <aside class='notes'>jq es una
+		    herramienta de línea de órdenes, pero
+		    afortunadamente podemos usarla también
+		    desde la web para extraer información de
+		    la misma.</aside>
+		</section>
+		
 
-			  <section>
-			    <section>
-			      <section>
-				<h1>Recuperemos información</h1>
-				<h2>Autenticación ⇒ Autorizar aplicación</h2>
-				<a
-			    href='https://dev.twitter.com/rest/tools/console'><code>https://dev.twitter.com/rest/tools/console</code></a></section>
-			    </section>
-
-			    <section>
-			      <img src='img/console.png' alt='usando
-			      la consola'>
-			    </section>
-
-			    <section>
-			      <h2>Copia/pega entre llaves</h2>
-			      <img src='img/json.png' alt='copiando'>
-			    </section>
-
-			    <section>
-			      <h1>Pero esto no funciona (salvo en
-				casos muy concretos)</h1>
-			    </section>
-
-			    <section>
-			      <h1>Instalemos <a href='https://chrome.google.com/webstore/search/postman?hl=es'>Postman</a></h1>
-			      <h2 class='fragment'>Extensión
-			      Chrome/Chromium</h2>
-			    </section>
-
-			    <section>
-			      <img src='img/postman.png' alt='Usando postman'>
-			    </section>
-
-			    <section>
-			      <h1> ⇒ Save Response</h1>
-			      <h2 class='fragment'>(icono copy/pegar)</h2>
-			    </section>
-
-			    <section><h1>Pero el formato es muy
-			      feo</h1></section>
-
-			    <section><h1>Filtrando con
-			      <code>jq</code></h1>
-
-			      <aside class='notes'>jq es una
-			    herramienta de línea de órdenes, pero
-			    afortunadamente podemos usarla también
-			    desde la web para extraer información de
-				la misma.</aside>
-			    </section>
-			    
-			    <section>
-			      <h2>Id a <a href='https://jqplay.org/'><code>jqplay.org</code></a></h2>
-			      
-			      <h2 class='fragment'> ⇒ Pegad en "JSON"</h2>
-			    </section>
-
-			    <section>
-			      <img src='img/jqplay.png' alt='Jugando
-			      en JQPlay'>
-			    </section>
-
-			    <section><h1>Ya tenemos el texto en
-			    filas</h1>
-			      <h2 class='fragment'>Habrá que pararse
-				para ver qué se ha hecho</h2>
-			    </section>
-
-			    <section>
-			      <h1>Ejercicio</h1>
-			      <h2>Hacer una búsqueda con Postman u
-				otro sistema similar, guardarla (o
-			      <em>copypaste</em>) en JSON y extraer
-			      sólo los tweets</h2>
-			    </section>			      
-			  </section>
-
-			  <section>
-			    <section><h1>JSON = <em>JavaScript Object
-			    Notation</em></h1></section>
-
-			    <section><h1>Una forma compacta de comunicar y
-			     almacenar información</h1></section>
-
-			    <section><h1>JSON es como <a href='http://jsonviewer.stack.hu/'>un
-			      árbol</a></h1></section>
-
-			    <section>
-			      <h1><code>.statuses[]</code></h1>
-			      <img src='img/json-tree-1.png'
-			    alt='Primera fase'>
-			    </section>
-
-			    <section>
-			      <h1><code>.statuses[] text</code></h1>
-			      <img src='img/json-tree-2.png'
-				   alt='Segunda fase'>
-			    </section>
-
-			    <section><h1>Ejercicio</h1>
-			      <h2>Tras visualizar la estructura JSON, extraer las <em>fuentes</em>
-			      (<code>source</code>) de todos los
-				tweets anteriores</h2>
-			    </section>
-			    
-			  </section>
-			      
-			</div>
+		<section>
+		  <h1>Id a <a href='https://jqplay.org/'><code>jqplay.org</code></a></h1>
+		  
+		  <h2 class='fragment'> ⇒ Pegad en "JSON"</h2>
+		</section>
+		
+		<section>
+		  <img src='img/jqplay.png' alt='Jugando
+		       en JQPlay'>
+		</section>
+		
+		<section><h1>Ya tenemos el texto en
+		  filas</h1>
+		  <h2 class='fragment'>Habrá que pararse
+		    para ver qué se ha hecho</h2>
+		</section>
+		
+		<section>
+		  <h1>Ejercicio</h1>
+		  <h2>Hacer una búsqueda con Postman u
+		    otro sistema similar, guardarla (o
+		    <em>copypaste</em>) en JSON y extraer
+		    sólo los tweets</h2>
+		</section>			      
+	      </section>
+	      
+	      <section>
+		<section><h1>JSON = <em>JavaScript Object
+		  Notation</em></h1></section>
+		
+		<section><h1>Una forma compacta de comunicar y
+		  almacenar información</h1></section>
+		
+		<section><h1>JSON es como <a href='http://jsonviewer.stack.hu/'>un
+		  árbol</a></h1></section>
+		
+		<section>
+		  <h1><code>.statuses[]</code></h1>
+		  <img src='img/json-tree-1.png'
+		       alt='Primera fase'>
+		</section>
+		
+		<section>
+		  <h1><code>.statuses[] text</code></h1>
+		  <img src='img/json-tree-2.png'
+		       alt='Segunda fase'>
+		</section>
+		
+		<section><h1>Ejercicio</h1>
+		  <h2>Tras visualizar la estructura JSON, extraer las <em>fuentes</em>
+		    (<code>source</code>) de todos los
+		    tweets anteriores</h2>
+		</section>
+		
+	      </section>
+	      
+	    </div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
