@@ -260,6 +260,74 @@
 	  <section>
 	    <img src='img/pokemon-regex.png' alt='pokemon regex'>
 	  </section>
+
+	  <section><h1>A veces Pokémon lleva acento</h1>
+	    <pre class='fragment'><code>/Pok.mon/g</code></pre>
+	    <img src='img/pokdotmon-regex.png' alt='pok.mon regex'>
+	  </section>
+
+	  <section>
+	    <h1><code>.</code>: cualquier carácter (uno solo)</h1>
+	  </section>
+	    
+
+	  <section><h1>O no lleva mayúsculas</h1>
+	    <pre class='fragment'><code>/[Pp]ok.mon/g</code></pre>
+	    <img src='img/ppokemon-regex.png' alt='mayúsculas/minúsculas'>
+	  </section>
+
+	   <section>
+	    <h1><code>[]</code>: grupo de caracteres</h1>
+
+	    <h1>Vocales  ⇒ <code>[aeiou]</code></h1>
+	  </section>
+
+	  <section><h1>O nos dan igual las mayúsculas</h1>
+	    <pre class='fragment'><code>/pok.mon/gi</code></pre>
+	    <img src='img/pokemon-i-regex.png' alt='mayúsculas/minúsculas'>
+	  </section>
+
+	   <section>
+	    <h1>✔ <code>/i</code>: independiente de mayúsculas/minúsculas</h1>
+
+	    <h1 class='fragment'>✔ <code>/s</code>: líneas múltiples</h1>
+	  </section>
+
+	  <section>
+	    <h1>¿Han cantado bingo?</h1>
+	    <pre class='fragment'><code>/\d/ig</code></pre>
+	    <img src='img/esc-d-regex.png' alt='escape-d'>
+	  </section>
+
+	   <section>
+	     <h1>✔<code>\ y letras</code>: <em>clases</em> de caracteres</h1>
+
+	     <h1>✔ Letras  ⇒ <code>\w</code></h1>
+	     <h1>✔ Todo excepto letras  ⇒ <code>\W</code></h1>
+	     <h1>✔ Espacio en blanco  ⇒ <code>\s</code></h1>
+	     
+	  </section>
+
+	  <section><h1>Esos acrónimos de dos o más letras...</h1>
+	    <pre class='fragment'><code>/ [A-Z][A-Z]+ /g</code></pre>
+	    <img src='img/rangos-rex.png' alt='rangos'>
+	  </section>
+
+	  <section>
+	    <h1>✔<code>[A-Z]</code>: <em>rangos</em> de caracteres</h1>
+	    
+	    <h1>✔ Combinado  ⇒ <code>[A-Z\d]</code></h1>
+	    
+	  </section>
+
+	  <section>
+	    <h1>✔<code>+</code>: <em>una o más</em> repeticiones</h1>
+
+	    <h1>✔<code>*</code>: <em>0 o más</em> repeticiones</h1>
+
+	    <h1>✔<code>?</code>: <em>exactamente una</em> aparición</h1>
+	    
+	  </section>
 	    
 	</section>
 	  
