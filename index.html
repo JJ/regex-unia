@@ -22,16 +22,16 @@
 		</script>
 	</head>
 	<body>
-		<div class="reveal">
-			<div class="slides">
-			  <section><h1>Extracción de texto y automatización en Twitter</h1>
-			    <h2>JJ Merelo, <code>@jjmerelo</code></h2>
-			  </section>
-
-			  <section><h1>Primero, extraigamos la
-			  información</h1>
-			    <h1 class='fragment'>Luego, procesémosla</h1>
-			  </section>
+	  <div class="reveal">
+	    <div class="slides">
+	      <section><h1>Extracción de texto y automatización en Twitter</h1>
+		<h2>JJ Merelo, <code>@jjmerelo</code></h2>
+	      </section>
+	      
+	      <section><h1>Primero, extraigamos la
+		información</h1>
+		<h1 class='fragment'>Luego, procesémosla</h1>
+	      </section>
 
 			  <section>
 			    <section><h1>En el principio fue el API</h1>
@@ -125,6 +125,36 @@
 			      <em>copypaste</em>) en JSON y extraer
 			      sólo los tweets</h2>
 			    </section>			      
+			  </section>
+
+			  <section>
+			    <section><h1>JSON = <em>JavaScript Object
+			    Notation</em></h1></section>
+
+			    <section><h1>Una forma compacta de comunicar y
+			     almacenar información</h1></section>
+
+			    <section><h1>JSON es como <a href='http://jsonviewer.stack.hu/'>un
+			      árbol</a></h1></section>
+
+			    <section>
+			      <h1><code>.statuses[]</code></h1>
+			      <img src='img/json-tree-1.png'
+			    alt='Primera fase'>
+			    </section>
+
+			    <section>
+			      <h1><code>.statuses[] text</code></h1>
+			      <img src='img/json-tree-2.png'
+				   alt='Segunda fase'>
+			    </section>
+
+			    <section><h1>Ejercicio</h1>
+			      <h2>Tras visualizar la estructura JSON, extraer las <em>fuentes</em>
+			      (<code>source</code>) de todos los
+				tweets anteriores</h2>
+			    </section>
+			    
 			  </section>
 			      
 			</div>
