@@ -1,66 +1,448 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Usando expresiones regulares</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    <link rel="stylesheet" href="css/extra.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+     var link = document.createElement( 'link' );
+     link.rel = 'stylesheet';
+     link.type = 'text/css';
+     link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+     document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
 
-		<title>reveal.js</title>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<section><h1>Extracción de texto y automatización en Twitter</h1>
+	  <h2>JJ Merelo, <code>@jjmerelo</code></h2>
+	</section>
+	
+	<section><h1>Primero, extraigamos la
+	  información</h1>
+	  <h1 class='fragment'>Luego, procesémosla</h1>
+	</section>
+	
+	<section>
+	  <section><h1>En el principio fue el API</h1>
+	  </section>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/white.css">
+	  <section><h1>Un API permite usar la web
+			    <em>por debajo</em></h1>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	  </section>
+		
+	  <section><h1>Entrando paso a paso</h1>
+	    <aside class='notes'>La autenticación se
+	      hace en dos pasos, por usuario y por aplicación</aside>
+	  </section>
+	  
+	</section>
+	
+	<section>
+	  <section><h1>Toma control de la web</h1></section>
+	  
+	  <section><h1>Necesitas conocer un interfaz de programación de aplicaciones (API)</h1>
+	  </section>
+	  
+	  <section><h1>Un API permite usar la web <em>por debajo</em></h1></section>
+	  
+	  <section><h1>Que no cunda el pánico</h1></section>
+	  
+	  <section><h1>No hace falta programar</h1>
+	    <h2 class='fragment'>... demasiado</h2>
+	  </section>
+	  
+	  <section>
+	    <h1>Recuperemos información</h1>
+	    <h2>Autenticación ⇒ Autorizar aplicación</h2>
+	    <a
+	      href='https://dev.twitter.com/rest/tools/console'><code>https://dev.twitter.com/rest/tools/console</code></a><
+	  </section>
+	  
+	  <section>
+	    <img src='img/console.png' alt='usando
+		 la consola'>
+	  </section>
+	  
+	  <section>
+	    <h2>Copia/pega entre llaves</h2>
+	    <img src='img/json.png' alt='copiando'>
+	  </section>
+	  
+	  <section>
+	    <h1>Pero esto no funciona (salvo en
+	      casos muy concretos)</h1>
+	  </section>
+	  
+	  <section>
+	    <h1>Instalemos <a href='https://chrome.google.com/webstore/search/postman?hl=es'>Postman</a></h1>
+	    <h2 class='fragment'>Extensión
+	      Chrome/Chromium</h2>
+	  </section>
+	  
+	  <section>
+	    <img src='img/postman.png' alt='Usando postman'>
+	  </section>
+	  
+	  <section>
+	    <h1> ⇒ Save Response</h1>
+	    <h2 class='fragment'>(icono copy/pegar)</h2>
+	  </section>
+	  
+	  <section><h1>Pero el formato es muy
+	    feo</h1></section>
+	  
+	  <section><h1>Filtrando con
+	    <code>jq</code></h1>
+	    
+	    <aside class='notes'>jq es una
+	      herramienta de línea de órdenes, pero
+	      afortunadamente podemos usarla también
+	      desde la web para extraer información de
+	      la misma.</aside>
+	  </section>
+	  
+	  
+	  <section>
+	    <h1>Id a <a href='https://jqplay.org/'><code>jqplay.org</code></a></h1>
+	    
+	    <h2 class='fragment'> ⇒ Pegad en "JSON"</h2>
+	  </section>
+	  
+	  <section>
+	    <img src='img/jqplay.png' alt='Jugando
+		 en JQPlay'>
+	  </section>
+	  
+	  <section><h1>Ya tenemos el texto en
+	    filas</h1>
+	    <h2 class='fragment'>Habrá que pararse
+	      para ver qué se ha hecho</h2>
+	  </section>
+	  
+	  <section>
+	    <h1>Ejercicio</h1>
+	    <h2>Hacer una búsqueda con Postman u
+	      otro sistema similar, guardarla (o
+	      <em>copypaste</em>) en JSON y extraer
+	      sólo los tweets</h2>
+	  </section>		
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-			  <section><h1>Extracción de texto y automatización en Twitter</h1>
-			    <h2>JJ Merelo, <code>@jjmerelo</code></h2></section>
+	  <section><h1>Pero no tememos a la línea de
+	  órdenes</h1></section>
 
-			  <section>
-			    <section><h1>Toma control de la web</h1></section>
-			    
-			    <section><h1>Necesitas conocer un interfaz de programación de aplicaciones (API)</h1>
-			    </section>
+	  <section>
+	    <h1>Podemos usar <code>tweet_rest.py</code></h1>
 
-			    <section><h1>Un API permite usar la web <em>por debajo</em></h1></section>
+	    <h2 class='fragment'>Búsqueda  ⇒ Fichero
+	    <code>.txt</code></h2>
+	     <h2 class='fragment'> ⇒ Cambia extensión
+	    <code>.csv</code> ⇒ Importa Calc
+	     </h2>
+	      <h2 class='fragment'>⇒ 
+	      Recorta columna ... </h2>
+	  </section>
 
-			    <section><h1>Que no cunda el pánico</h1></section>
+	  <section><h1>... O podemos usar <a
+	  href='https://raw.githubusercontent.com/JJ/t-hoarder/master/get_tweets.py'><code>get_tweets.py</code></a></h1>
 
-			    <section><h1>No hace falta programar</h1>
-			      <h2 class='fragment'>... demasiado</h2>
-			    </section>
+	    <h2>Descarga de <a
+	    href='https://git.io/g-tpy'><code>https://git.io/g-tpy</code></a></h2>
+	  </section>
 
-			  </section>
-			  <section><a href='https://dev.twitter.com/rest/tools/console'><code>https://dev.twitter.com/rest/tools/console</code></a></section>
-			</div>
-		</div>
+	  <section><h1>Nueva versión del de Mari Luz Congosto</h1>
+	    <code>python tweet_rest.py mis.keys donde_esta_la.key ongs.txt --tweets</code>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	    <h2 class='fragment'> ⇒ Copia/Pega o añade
+	      <code>>fichero.txt</code> al final</h2>
+	  </section>
+
+	  <section><h1>Ejercicio</h1>
+	    <h2>Usar este programa para descargar un fichero de texto con
+	      tweets, uno por línea</h2>
+	  </section>
+	</section>
+	
+	<!-- Animación a la programación -->
+
+	<section>
+	  <section><h1>¿Por qué no programas?</h1></section>
+
+	  <section><h1>La mejor forma de:</h1>
+	    <h2 class='fragment'>✔ Procesar y analizar datos</h2>
+	    <h2 class='fragment'>✔ Ir más allá en la
+	    noticia/informe</h2>
+	    <h2 class='fragment'>✔ Adquirir herramientas para resolver
+	    problemas</h2>
+	  </section>
+
+	  <section
+	  data-background='https://farm4.staticflickr.com/3640/3308806273_42f1f7f5dc_b_d.jpg'>
+	    <h1>Considera Python</h1>
+	    <p>Imagen de EVLCN en <a
+	  href='https://www.flickr.com/photos/scifr/3308806273/in/photolist-63ouQ2-oKcRmq-hbrSKe-6rYF7S-ouJSzQ-ovL934-oLXRTD-oMcNqj-4CGJJX-7Qfhiu-9zogy9-M8Zbu-5sdrrj-3oFef-9ajAZb-7UvQsd-3oFhn-7ZkEeB-JRvpw-7Zp8H5-nUhijp-523FYr-FhHt9E-6yrSFz-9WTmn4-kEFfkk-wvZYhu-cDwBE9-bpcigU-eJBBxF-rRXzbL-obMGyp-pWAGi5-kFq1x-bC7boT-7eUVoK-GNtTsG-decsuN-bzc45S-3L3z39-5PRtGs-5o2hJa-4kLVEW-fKZcDV-u18j-bC7bMX-9wqR7-9A7qoj-4kLWbo-7wZFN6'>Flickr</a></p></section>
+	</section>
+
+
+	<!-- Volviendo al JSON -->
+	<section>
+	  <section><h1>JSON = <em>JavaScript Object
+	    Notation</em></h1></section>
+	  
+	  <section><h1>Una forma compacta de comunicar y
+	    almacenar información</h1></section>
+	  
+	  <section><h1>JSON es como <a href='http://jsonviewer.stack.hu/'>un
+	    árbol</a></h1></section>
+	  
+	  <section>
+	    <h1><code>.statuses[]</code></h1>
+	    <img src='img/json-tree-1.png'
+		 alt='Primera fase'>
+	  </section>
+	  
+	  <section>
+	    <h1><code>.statuses[] text</code></h1>
+	    <img src='img/json-tree-2.png'
+		 alt='Segunda fase'>
+	  </section>
+	  
+	  <section><h1>Ejercicio</h1>
+	    <h2>Tras visualizar la estructura JSON, extraer las <em>fuentes</em>
+	      (<code>source</code>) de todos los
+	      tweets anteriores</h2>
+	  </section>
+
+	  <section><h1>Ejercicio</h1>
+	    <h2>Mirar los otros datos de un tweet y comentar en clase
+	    cuáles podían interesar medir y tabular</h2>
+	  </section>
+
+	  <section><h1>Con el texto extraído se puede trabajar de
+	    múltiples formas</h1>
+	    <h2 class='fragment'>✔ Buscar palabras</h2>
+	    <h2 class='fragment'>✔ Nubes de palabras</h2>
+	    <h2 class='fragment'>✔ Metadatos: longitud RTs...</h2>
+	  </section>
+
+	  <section>
+	    <h1>Nubes en <a href='http://tagul.com'>Tagul.com</a></h1>
+	    <img src='img/nube.png' alt='Nube de pokemones'>
+	  </section>
+	  
+	  <section>
+	    <h1>Ejercicio</h1>
+	    <h2>Crear una nube de palabras usando el texto extraído
+	      anteriormente usando TagUl u otro servicio</h2>
+	  </section>
+
+	</section>
+
+	<!-- Empezando con expresiones regulares -->
+	
+	<section> 
+	  <section><h1>Procesando la información: usando
+	    expresiones regulares</h1></section>
+	  
+	  <section><h1>Usa expresiones regulares cuando quieras</h1>
+	    <h2 class='fragment'>✔ <em>sacar</em>
+	      texto</h2>
+	    <h2 class='fragment'>✔ <em>filtrar</em>
+	      texto</h2>
+	    <h2 class='fragment'>✔ <em>buscar</em> expresiones
+	      complejas</h2>
+	  </section>
+	  
+	  <section><h1>Una expresión regular expresa la
+	    <em>estructura</em> de un texto</h1>
+	    <h2 class='fragment'>✔ Una o más palabras</h2>
+	    <h2 class='fragment'>✔ Dos Palabras En
+	      Mayúsculas</h2>
+	    <h2 class='fragment'>✔ Cualquier <em>#hashtag</em></h2>
+	  </section>
+	  
+	  <section>
+	    <h1>Usemos expresiones regulares online</h1>
+
+	    <h2>RegExr: <a href='http://regexr.com/'>regexr.com</a></h2>
+	  </section>
+
+	  <section>
+	    <h1>Una palabra es una expresión regular:
+	    <code>/Pokemon/g</code></h1>
+	    <h2 class='fragment'><code>//</code> ⇒ Delimita </h2>
+	    <h2 class='fragment'><code>g</code> ⇒
+	    <strong>g</strong>lobal ⇒ todas </h2>
+	  </section>
+
+	  <section>
+	    <h1>Introduce en <code>Expression</code></h1>
+	    <h2 class='fragment'>⇒ Mira en <code>Text</code></h2> 
+	    <h2 class='fragment'>⇒ Pulsa en <code>List</code></h2> 
+	  </section>
+
+	  <section>
+	    <img src='img/pokemon-regex.png' alt='pokemon regex'>
+	  </section>
+
+	  <section><h1>A veces Pokémon lleva acento</h1>
+	    <pre class='fragment'><code>/Pok.mon/g</code></pre>
+	    <img src='img/pokdotmon-regex.png' alt='pok.mon regex'>
+	  </section>
+
+	  <section>
+	    <h1><code>.</code>: cualquier carácter (uno solo)</h1>
+	  </section>
+	    
+
+	  <section><h1>O no lleva mayúsculas</h1>
+	    <pre class='fragment'><code>/[Pp]ok.mon/g</code></pre>
+	    <img src='img/ppokemon-regex.png' alt='mayúsculas/minúsculas'>
+	  </section>
+
+	   <section>
+	    <h1><code>[]</code>: grupo de caracteres</h1>
+
+	    <h1>Vocales  ⇒ <code>[aeiou]</code></h1>
+	  </section>
+
+	  <section><h1>O nos dan igual las mayúsculas</h1>
+	    <pre class='fragment'><code>/pok.mon/gi</code></pre>
+	    <img src='img/pokemon-i-regex.png' alt='mayúsculas/minúsculas'>
+	  </section>
+
+	   <section>
+	    <h1>✔ <code>/i</code>: independiente de mayúsculas/minúsculas</h1>
+
+	    <h1 class='fragment'>✔ <code>/s</code>: líneas múltiples</h1>
+	  </section>
+
+	  <section>
+	    <h1>¿Han cantado bingo?</h1>
+	    <pre class='fragment'><code>/\d/ig</code></pre>
+	    <img src='img/esc-d-regex.png' alt='escape-d'>
+	  </section>
+
+	   <section>
+	     <h1>✔<code>\ y letras</code>: <em>clases</em> de caracteres</h1>
+
+	     <h1>✔ Letras  ⇒ <code>\w</code></h1>
+	     <h1>✔ Todo excepto letras  ⇒ <code>\W</code></h1>
+	     <h1>✔ Espacio en blanco  ⇒ <code>\s</code></h1>
+	     
+	  </section>
+
+	  <section><h1>Esos acrónimos de dos o más letras...</h1>
+	    <pre class='fragment'><code>/ [A-Z][A-Z]+ /g</code></pre>
+	    <img src='img/rangos-rex.png' alt='rangos'>
+	  </section>
+
+	  <section>
+	    <h1>✔<code>[A-Z]</code>: <em>rangos</em> de caracteres</h1>
+	    
+	    <h1>✔ Combinado  ⇒ <code>[A-Z\d]</code></h1>
+	    
+	  </section>
+
+	  <section>
+	    <h1>✔<code>+</code>: <em>una o más</em> repeticiones</h1>
+
+	    <h1>✔<code>*</code>: <em>0 o más</em> repeticiones</h1>
+
+	    <h1>✔<code>?</code>: <em>exactamente una</em> aparición</h1>
+	    
+	  </section>
+
+	  <section><h1>Devorando hashtags</h1>
+	    <pre class='fragment'><code>//\#.+/g</code></pre>
+	    <img src='img/devora-rex.png' alt='voraz'>
+	  </section>
+
+	   <section><h1>Devorando sólo hashtags</h1>
+	    <pre class='fragment'><code>//\#.+? /g</code></pre>
+	    <img src='img/no-devora-rex.png' alt='voraz'>
+	  </section>
+
+	  <section><h1><em>List</em> ⇒ Elimina <code>$1 - </code></h1>
+
+	    <img src='img/wordle.png' alt='Tagcloud EPA'>
+	  </section>
+
+	  <section>
+	    <h1>✔<code>+,*</code>: búsqueda <em>voraz</em></h1>
+
+	    <h1>✔<code>+?,*?</code>: búsqueda <em>humilde</em>:
+	    primero que cumpla</h1>
+
+	  </section>
+
+	  <section><h1>Volviendo a la línea de órdenes</h1>
+
+	    <h2 class='fragment'>Descarga <a
+	    href='https://git.io/trex-py'><code>git.io/trex-py</code></a></h2>
+	  </section>
+
+	  <section>
+	    <h1>Usando expresiones regulares desde un programa</h1>
+	    <pre><code>python get_tweets_regex.py jj.keys jjmerelo.key paro '[Ee][Pp][Aa]'</code></pre>
+
+	    <img src='img/epa-rex.png' alt='EPA rex'>
+	  </section>
+
+	  <section><h1>Ejercicio</h1>
+
+	    <h2>Usar el último programa para extraer información sobre
+	      los hashtags asociados a alguna ONG conocida</h2>
+	  </section>
+
+	</section>
+
+	<!-- Finalizando -->
+	<section>
+	  <h1>Llegar donde nadie ha llegado...</h1>
+	  <h2 class='fragment'>✔ Usa el API para bajar tweets</h2>
+	  <h2 class='fragment'>✔ Usa expresiones regulares para
+	  extraer palabras o expresiones</h2>
+	  <h2 class='fragment'>✔ Procesa las palabras: nubes, gráficos</h2>
+	</section>
+
+	<section
+	data-background='https://farm8.staticflickr.com/7295/9515566639_506de7e77f_o_d.jpg'>
+	  <h1>Hasta pronto</h1>
+	  <h2 class='fragment'>¿Dudas?</h2>
+	</section>
+
+
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
 		<script>
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				history: true,
+			  history: true,
+			  width: '90%',
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+			  dependencies: [
+			    { src: 'plugin/notes/notes.js', async: true },
+			    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+			  ]
 			});
 		</script>
 	</body>

@@ -45,11 +45,14 @@ body {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }
 
 .reveal h1 {
+             background-color:rgba(244,244,244,0.7);
+             margin: 20px;
+             padding: 10px;
+             border-radius: 30px;
       font-family: "Playfair Display", Helvetica, sans-serif;
       font-size: 2.75em; }
 
