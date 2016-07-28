@@ -184,6 +184,8 @@
 	  href='https://www.flickr.com/photos/scifr/3308806273/in/photolist-63ouQ2-oKcRmq-hbrSKe-6rYF7S-ouJSzQ-ovL934-oLXRTD-oMcNqj-4CGJJX-7Qfhiu-9zogy9-M8Zbu-5sdrrj-3oFef-9ajAZb-7UvQsd-3oFhn-7ZkEeB-JRvpw-7Zp8H5-nUhijp-523FYr-FhHt9E-6yrSFz-9WTmn4-kEFfkk-wvZYhu-cDwBE9-bpcigU-eJBBxF-rRXzbL-obMGyp-pWAGi5-kFq1x-bC7boT-7eUVoK-GNtTsG-decsuN-bzc45S-3L3z39-5PRtGs-5o2hJa-4kLVEW-fKZcDV-u18j-bC7bMX-9wqR7-9A7qoj-4kLWbo-7wZFN6'>Flickr</a></p></section>
 	</section>
 
+
+	<!-- Volviendo al JSON -->
 	<section>
 	  <section><h1>JSON = <em>JavaScript Object
 	    Notation</em></h1></section>
@@ -236,8 +238,10 @@
 	  </section>
 
 	</section>
+
+	<!-- Empezando con expresiones regulares -->
 	
-	<section> <!-- Empezando con expresiones regulares -->
+	<section> 
 	  <section><h1>Procesando la información: usando
 	    expresiones regulares</h1></section>
 	  
@@ -394,156 +398,12 @@
 
 	</section>
 
-	<section>
-	  <h1>Procesar información: un paso más allá</h1>
-	  <h1>✔ Letras  ⇒ <code>\w</code></h1>
-	     <h1>✔ Todo excepto letras  ⇒ <code>\W</code></h1>
-	     <h1>✔ Espacio en blanco  ⇒ <code>\s</code></h1>
-	     
-	  </section>
-
-	  <section><h1>Esos acrónimos de dos o más letras...</h1>
-	    <pre class='fragment'><code>/ [A-Z][A-Z]+ /g</code></pre>
-	    <img src='img/rangos-rex.png' alt='rangos'>
-	  </section>
-
-	  <section>
-	    <h1>✔<code>[A-Z]</code>: <em>rangos</em> de caracteres</h1>
-	    
-	    <h1>✔ Combinado  ⇒ <code>[A-Z\d]</code></h1>
-	    
-	  </section>
-
-	  <section>
-	    <h1>✔<code>+</code>: <em>una o más</em> repeticiones</h1>
-
-	    <h1>✔<code>*</code>: <em>0 o más</em> repeticiones</h1>
-
-	    <h1>✔<code>?</code>: <em>exactamente una</em> aparición</h1>
-	    
-	  </section>
-
-	  <section><h1>Devorando hashtags</h1>
-	    <pre class='fragment'><code>//\#.+/g</code></pre>
-	    <img src='img/devora-rex.png' alt='voraz'>
-	  </section>
-
-	   <section><h1>Devorando sólo hashtags</h1>
-	    <pre class='fragment'><code>//\#.+? /g</code></pre>
-	    <img src='img/no-devora-rex.png' alt='voraz'>
-	  </section>
-
-	  <section><h1><em>List</em> ⇒ Elimina <code>$1 - </code></h1>
-
-	    <img src='img/wordle.png' alt='Tagcloud EPA'>
-	  </section>
-
-	  <section>
-	    <h1>✔<code>+,*</code>: búsqueda <em>voraz</em></h1>
-
-	    <h1>✔<code>+?,*?</code>: búsqueda <em>humilde</em>:
-	    primero que cumpla</h1>
-
-	  </section>
-
-	  <section><h1>Volviendo a un programa</h1>
-
-	    <h2 class='fragment'>Descarga <a
-	    href='https://git.io/trex-py'><code>git.io/trex-py</code></a></h2>
-	  </section>
-
-	  <section>
-	    <pre><code>python get_tweets_regex.py jj.keys jjmerelo.key paro '[Ee][Pp][Aa]'</code></pre>
-
-	    <img src='img/epa-rex.png' alt='EPA rex'>
-	  </section>
-
-	  <section><h1>Ejercicio</h1>
-
-	    <h2>Usar el último programa para extraer información sobre
-	      los hashtags asociados a alguna ONG conocida</h2>
-	  </section>
-
-	</section>
-
-	<section>
-	  <h1>Procesar información: un paso más allá</h1>
-	  <h1>✔ Letras  ⇒ <code>\w</code></h1>
-	     <h1>✔ Todo excepto letras  ⇒ <code>\W</code></h1>
-	     <h1>✔ Espacio en blanco  ⇒ <code>\s</code></h1>
-	     
-	  </section>
-
-	  <section><h1>Esos acrónimos de dos o más letras...</h1>
-	    <pre class='fragment'><code>/ [A-Z][A-Z]+ /g</code></pre>
-	    <img src='img/rangos-rex.png' alt='rangos'>
-	  </section>
-
-	  <section>
-	    <h1>✔<code>[A-Z]</code>: <em>rangos</em> de caracteres</h1>
-	    
-	    <h1>✔ Combinado  ⇒ <code>[A-Z\d]</code></h1>
-	    
-	  </section>
-
-	  <section>
-	    <h1>✔<code>+</code>: <em>una o más</em> repeticiones</h1>
-
-	    <h1>✔<code>*</code>: <em>0 o más</em> repeticiones</h1>
-
-	    <h1>✔<code>?</code>: <em>exactamente una</em> aparición</h1>
-	    
-	  </section>
-
-	  <section><h1>Devorando hashtags</h1>
-	    <pre class='fragment'><code>//\#.+/g</code></pre>
-	    <img src='img/devora-rex.png' alt='voraz'>
-	  </section>
-
-	   <section><h1>Devorando sólo hashtags</h1>
-	    <pre class='fragment'><code>//\#.+? /g</code></pre>
-	    <img src='img/no-devora-rex.png' alt='voraz'>
-	  </section>
-
-	  <section><h1><em>List</em> ⇒ Elimina <code>$1 - </code></h1>
-
-	    <img src='img/wordle.png' alt='Tagcloud EPA'>
-	  </section>
-
-	  <section>
-	    <h1>✔<code>+,*</code>: búsqueda <em>voraz</em></h1>
-
-	    <h1>✔<code>+?,*?</code>: búsqueda <em>humilde</em>:
-	    primero que cumpla</h1>
-
-	  </section>
-
-	  <section><h1>Volviendo a un programa</h1>
-
-	    <h2 class='fragment'>Descarga <a
-	    href='https://git.io/trex-py'><code>git.io/trex-py</code></a></h2>
-	  </section>
-
-	  <section>
-	    <pre><code>python get_tweets_regex.py jj.keys jjmerelo.key paro '[Ee][Pp][Aa]'</code></pre>
-
-	    <img src='img/epa-rex.png' alt='EPA rex'>
-	  </section>
-
-	  <section><h1>Ejercicio</h1>
-
-	    <h2>Usar el último programa para extraer información sobre
-	      los hashtags asociados a alguna ONG conocida</h2>
-	  </section>
-
-	</section>
-
 	<!-- Finalizando -->
 	<section>
 	  <h1>Llegar donde nadie ha llegado...</h1>
 	  <h2 class='fragment'>✔ Usa el API para bajar tweets</h2>
 	  <h2 class='fragment'>✔ Usa expresiones regulares para
-	  extraer palabras</h2>
+	  extraer palabras o expresiones</h2>
 	  <h2 class='fragment'>✔ Procesa las palabras: nubes, gráficos</h2>
 	</section>
 
